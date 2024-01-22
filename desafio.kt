@@ -1,21 +1,53 @@
-// [Template no Kotlin Playground](https://pl.kotl.in/WcteahpyN)
+enum class Nivel {
+    BÁSICO,
+    INTERMEDIÁRIO,
+    AVANÇADO
+}
 
-enum class Nivel { BASICO, INTERMEDIARIO, DIFICIL }
+class Usuario(val nome: String, val email: String) {
+}
 
-class Usuario
-
-data class ConteudoEducacional(var nome: String, val duracao: Int = 60)
-
-data class Formacao(val nome: String, var conteudos: List<ConteudoEducacional>) {
-
-    val inscritos = mutableListOf<Usuario>()
+data class ConteudoEducacional(val nome: String, val duracao: Int) {
     
-    fun matricular(usuario: Usuario) {
-        TODO("Utilize o parâmetro $usuario para simular uma matrícula (usar a lista de $inscritos).")
+    val usuariosMatriculados: MutableList<Usuario> = mutableListOf()
+
+    fun matricularUsuario(usuario: Usuario) {
+        usuariosMatriculados.add(usuario)
+        println("${usuario.nome} foi matriculado(a) no conteúdo educacional: $nome")
+    }
+
+    fun listarUsuariosMatriculados() {
+        println("Usuários matriculados no conteúdo educacional $nome:")
+        for (usuario in usuariosMatriculados) {
+            println("- ${usuario.nome}")
+        }
+    }
+}
+
+data class Formacao(val nome: String, val nivel: Nivel, val conteudos: List<ConteudoEducacional>) {
+    
+    fun listarConteudosEducacionais() {
+        println("Conteúdos educacionais da formação $nome nível $nivel:")
+        for (conteudo in conteudos) {
+            println("- ${conteudo.nome} - ${conteudo.duracao}hrs")
+        }
     }
 }
 
 fun main() {
-    TODO("Analise as classes modeladas para este domínio de aplicação e pense em formas de evoluí-las.")
-    TODO("Simule alguns cenários de teste. Para isso, crie alguns objetos usando as classes em questão.")
+    val conteudo1 = ConteudoEducacional("Conhecendo o Kotlin e Sua Documentação Oficial", 1)
+    val conteudo2 = ConteudoEducacional("Introdução Prática à Linguagem de Programação Kotlin", 2)
+    
+    val formacao1 = Formacao("Desenvolvimento Backend com Kotlin", Nivel.BÁSICO, listOf(conteudo1, conteudo2))
+
+    val usuario1 = Usuario("Ana", "ana@gmail.com")
+    val usuario2 = Usuario("Luiza", "luiza@gmail.com")
+
+    conteudo1.matricularUsuario(usuario1)
+    conteudo2.matricularUsuario(usuario2)
+    
+    conteudo1.listarUsuariosMatriculados()
+    conteudo2.listarUsuariosMatriculados()
+
+    formacao1.listarConteudosEducacionais()
 }
